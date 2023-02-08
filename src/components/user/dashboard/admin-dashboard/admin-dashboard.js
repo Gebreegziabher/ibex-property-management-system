@@ -23,7 +23,6 @@ const AdminDashboard = () => {
     const tableContent = users.map(m => {
         return (
             <tr key={m.id}>
-                <th scope="row">{counter}</th>
                 <td>{m.firstName} {m.lastName}</td>
                 <td>{m.email}</td>
                 <td>{m.phoneNumber}</td>
@@ -58,7 +57,6 @@ const AdminDashboard = () => {
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">No.</th>
                         <th scope="col">Full name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Phone number</th>

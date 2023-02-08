@@ -1,6 +1,10 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useRef } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Address, City, Email, PhoneNumber, State, SystemName, ZipCode } from "../../../globals/common-names";
+import Roles from "../../../globals/roles";
+import { authActions } from "../../../store/store";
 import AddressCard from "../../address-card/address-card";
 import "./user-login.css";
 
@@ -8,11 +12,44 @@ const UserLogin = () => {
 
   const loginForm = useRef();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const loginFormSubmitted = (e) => {
+  const doLogin = createAsyncThunk('login',
+    async (userCredentials) => {
+      //TODO: implement with DB
+      /** 
+       * 
+       * const res = await axios.post('http://localhost:8080/api/v1/authenticate', userCredentials);
+       * return res.data;
+       * 
+       * */
+      return {
+        isAuthenticated: true,
+        userDetails: {
+          firstName: "Gebreegziabher",
+          lastName: "Gebru",
+          email: "3g.mit02@gmail.com",
+          role: Roles.Owner,
+        }
+      };
+    });
+
+  const loginFormSubmitted = async (e) => {
     e.preventDefault();
-    if (loginForm.current['email'].value && loginForm.current['password'].value)
+    if (loginForm.current['email'].value && loginForm.current['password'].value) {
+
+      const userCredentials = { email: loginForm.current['email'].value, password: loginForm.current['password'].value };
+      const result = await dispatch(doLogin(userCredentials));
+      dispatch(authActions.loginSuccessful(result.payload));
+      //TODO: add access token to cookie
+      /**
+       * 
+       * Cookies.set('user', result.payload.accessToken);
+       * 
+       * */
+
       navigate("/");
+    }
   };
 
   return (
@@ -20,7 +57,7 @@ const UserLogin = () => {
       <div className="container">
         <div className="row mt-5">
           <div className="col-lg-4">
-            <AddressCard  Address={Address} City={City} State={State} ZipCode={ZipCode} Email={Email} PhoneNumber={PhoneNumber}/>
+            <AddressCard Address={Address} City={City} State={State} ZipCode={ZipCode} Email={Email} PhoneNumber={PhoneNumber} />
           </div>
 
           <div className="col-lg-4 mt-5 mt-lg-0 login-form-container" >

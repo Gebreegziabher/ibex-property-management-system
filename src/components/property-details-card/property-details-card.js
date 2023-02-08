@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import PropertyAvailability from "../../globals/availability-enum";
 import AddressCard from "../address-card/address-card";
@@ -11,6 +12,8 @@ const PropertyDetailsCard = () => {
 
     const navigate = useNavigate();
 
+    const auth = useSelector(state => state.auth);
+
     const propertyDetails = {
         id: param.id,
         availability: PropertyAvailability.Available,
@@ -19,7 +22,7 @@ const PropertyDetailsCard = () => {
         numberOfBedRooms: 3,
         numberOfBathRooms: 2,
         imageUrl: require("../../assets/img/houses/1200x800-1.jpg"),
-        description:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, odio!",
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, odio!",
         location: {
             street: "1000 N 4th St",
             city: "Fairfield",
@@ -39,13 +42,13 @@ const PropertyDetailsCard = () => {
     };
 
     const requestPurchaseClicked = () => {
-        //TODO:
-        /**
-         * check if use is logged in to purchase
-         * if not logged in, redirect them to login page
-         * if logged in, redirect them to landing page
-         */
-        navigate("/purchase/" + param.id);
+        if (auth.isAuthenticated == true) {
+            console.log("Hello world!");
+            navigate("/purchase/" + param.id);
+        }
+        else {
+            navigate("/login");
+        }
     };
 
     return (
