@@ -1,0 +1,53 @@
+/*--------------------------------------------------------------
+# Header
+--------------------------------------------------------------*/
+#header {
+  transition: all 0.5s;
+  background: #fff;
+  z-index: 997;
+  padding: 20px;
+  border-bottom: 1px solid #e6f2fb;
+}
+
+#header .logo {
+  font-size: 28px;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  font-family: "Poppins", sans-serif;
+}
+
+#header .logo .anchor {
+  color: #16507b;
+}
+
+#header .logo img {
+  max-height: 40px;
+}
+
+@media (max-width: 992px) {
+  #header .logo {
+    font-size: 28px;
+  }
+}
+
+#header .btn-toolbar .btn-deep-blue {
+  background: #2487ce;
+  border: 0;
+  padding: 5px 20px;
+  color: #fff;
+  transition: 0.4s;
+  border-radius: 4px;
+}
+
+#header .btn-toolbar .btn-deep-blue:hover {
+  background: #3194db;
+}
+
+#header .dropdown-menu .icon
+{
+  font-size: 20px;
+  font-weight: bold;
+}

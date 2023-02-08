@@ -1,0 +1,10 @@
+.dashboard {
+padding:40px 30px; 
+}
+
+.dashboard h2 {
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: #124265;
+}

@@ -1,0 +1,11 @@
+.btn-gray{
+    background-color: #e9ecef;
+}
+
+.btn-gray:hover{
+    background-color: #d3d4d5;
+}
+
+.btn-group span {
+    cursor: pointer;
+}

@@ -1,0 +1,10 @@
+.property-status{
+    padding-top:15px;
+    font-size:14px;
+    color:#fff;
+}
+
+.property-status span{
+    padding:4px 15px;
+    border-radius: 10px;
+}

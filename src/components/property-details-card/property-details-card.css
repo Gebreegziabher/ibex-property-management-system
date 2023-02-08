@@ -1,0 +1,62 @@
+.property-details .content h2 {
+    font-weight: 600;
+    font-size: 35px;
+    padding-top:20px;
+}
+
+.property-details .content .fst-italic
+{
+    color: #124265;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.property-details .content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.property-details .content ul li {
+    padding-left: 28px;
+    position: relative;
+    font-size: 16px;
+}
+
+.property-details .content ul li+li {
+    margin-top: 10px;
+}
+
+.property-details .content ul i {
+    position: absolute;
+    left: 0;
+    top: 2px;
+    font-size: 24px;
+    color: #2487ce;
+    line-height: 1;
+}
+
+.property-details .content p:last-child {
+    margin-bottom: 0;
+}
+
+.property-details .details-landing .seller-details{
+    text-align: left;
+    font-weight: 700;
+    margin-top:20px;
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #124265;
+}
+
+.property-details .details-landing button[type=submit] {
+    background: #2487ce;
+    border: 0;
+    padding: 10px 30px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 4px;
+}
+
+.property-details .details-landing button[type=submit]:hover {
+    background: #3194db;
+}

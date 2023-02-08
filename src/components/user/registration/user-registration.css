@@ -1,0 +1,115 @@
+.create-account .create-account-form-container {
+    padding: 50px 30px;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 0 29px 0 rgba(18, 66, 101, 0.08);
+    transition: all 0.3s ease-in-out;
+    border-radius: 8px;
+    z-index: 1;
+}
+
+.create-account .create-account-form-container .create-account-form-title{
+    text-align: left;
+}
+
+.create-account .create-account-form-container h2 {
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 22px;
+    color: #124265;
+}
+
+.create-account .create-account-form-container .description {
+    font-size: 15px;
+    line-height: 28px;
+    margin-bottom: 0;
+}
+
+.create-account .create-account-form-container .create-account-form {
+    width: 100%;
+    background: #fff;
+}
+
+.create-account .create-account-form-container .create-account-form .form-group {
+    padding-bottom: 8px;
+}
+
+.create-account .create-account-form-container .create-account-form .error-message {
+    display: none;
+    color: #fff;
+    background: #ed3c0d;
+    text-align: left;
+    padding: 15px;
+    font-weight: 600;
+}
+
+.create-account .create-account-form-container .create-account-form .error-message br+br {
+    margin-top: 25px;
+}
+
+.create-account .create-account-form-container .create-account-form .sent-message {
+    display: none;
+    color: #fff;
+    background: #18d26e;
+    text-align: center;
+    padding: 15px;
+    font-weight: 600;
+}
+
+.create-account .create-account-form-container .create-account-form .loading {
+    display: none;
+    background: #fff;
+    text-align: center;
+    padding: 15px;
+}
+
+.create-account .create-account-form-container .create-account-form .loading:before {
+    content: "";
+    display: inline-block;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    margin: 0 10px -6px 0;
+    border: 3px solid #18d26e;
+    border-top-color: #eee;
+    -webkit-animation: animate-loading 1s linear infinite;
+    animation: animate-loading 1s linear infinite;
+}
+
+
+.create-account .create-account-form-container .create-account-form .text-field {
+    font-size: 14px;
+    height: 44px;
+}
+
+.create-account .create-account-form-container .create-account-form .text-field:focus {
+    border-color: #2487ce;
+}
+
+.create-account .create-account-form-container .create-account-form .form-check
+{
+    margin-top: 15px;
+}
+.create-account .create-account-form-container .create-account-form .check-box {
+    height:20px;
+    width:20px;
+}
+
+.create-account .create-account-form-container .create-account-form .label {
+    font-size: 16px;
+}
+
+
+.create-account .create-account-form-container .create-account-form button[type=submit] {
+    background: #2487ce;
+    border: 0;
+    padding: 10px 30px;
+    color: #fff;
+    transition: 0.4s;
+    border-radius: 4px;
+}
+
+.create-account .create-account-form-container .create-account-form button[type=submit]:hover {
+    background: #3194db;
+}

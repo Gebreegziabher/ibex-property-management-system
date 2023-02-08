@@ -1,0 +1,40 @@
+.info i {
+    font-size: 20px;
+    color: #2487ce;
+    float: left;
+    width: 44px;
+    height: 44px;
+    background: #e3f0fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.info h4 {
+    padding: 0 0 0 60px;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #124265;
+}
+
+.info p {
+    padding: 0 0 0 60px;
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #217bbc;
+}
+
+.info .email,
+.info .phone {
+    margin-top: 40px;
+}
+
+.info .email:hover i,
+.info .address:hover i,
+.info .phone:hover i {
+    background: #2487ce;
+    color: #fff;
+}
