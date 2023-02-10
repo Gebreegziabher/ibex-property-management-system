@@ -1,7 +1,7 @@
 const PropertyAvailability = {
-    Available: "Available",
-    Pending: "Pending",
-    Contingent: "Contingent",
-    Sold: "Sold"
+    Available: "AVAILABLE",
+    Pending: "PENDING",
+    Contingent: "CONTINGENT",
+    Sold: "SOLD"
 }
 export default PropertyAvailability;

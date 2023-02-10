@@ -14,7 +14,6 @@ const Header = () => {
     const dispatch = useDispatch();
 
     const navigateToLogin = () => {
-        console.log("I am here!");
         navigate("/login");
     };
 
@@ -46,8 +45,6 @@ const Header = () => {
         
         navigate('/');
     };
-
-    console.log(auth.isAuthenticated)
 
     return (
         <header id="header" className="fixed-top">

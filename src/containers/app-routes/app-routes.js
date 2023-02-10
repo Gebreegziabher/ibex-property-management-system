@@ -16,6 +16,10 @@ import DeleteProperty from "../../components/user/dashboard/seller-dashboard/del
 import PropertyOffers from "../../components/user/dashboard/seller-dashboard/property-offers";
 import UpdateProperty from "../../components/user/dashboard/seller-dashboard/update-property";
 import FilterAllProperties from "../filter-all-properties/filter-all-properties";
+import CreateRole from "../../components/user/dashboard/admin-dashboard/create-role";
+import EditRole from "../../components/user/dashboard/admin-dashboard/edit-role";
+import CreateUser from "../../components/user/dashboard/admin-dashboard/create-user";
+import ChangePassword from "../../components/user/dashboard/admin-dashboard/change-password";
 
 const AppRoutes = () => {
     return (
@@ -34,6 +38,10 @@ const AppRoutes = () => {
                 
                 {/* Admin Dashboard */}
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="/admin-dashboard/roles/create" element={<CreateRole />} />
+                <Route path="/admin-dashboard/roles/:id/edit" element={<EditRole />} />
+                <Route path="/admin-dashboard/users/create" element={<CreateUser />} />
+                <Route path="/admin-dashboard/users/change-password" element={<ChangePassword />} />
 
                 {/* Buyer Dashboard */}
                 <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
@@ -44,7 +52,6 @@ const AppRoutes = () => {
                 <Route path="/seller-dashboard/property/create" element={<CreateProperty />} />
                 <Route path="/seller-dashboard/property/update/:id" element={<UpdateProperty />} />
                 <Route path="/seller-dashboard/property/delete/:id" element={<DeleteProperty />} />
-
                 
             </Routes>
         </div>

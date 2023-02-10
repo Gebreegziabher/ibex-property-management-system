@@ -8,3 +8,22 @@ padding:40px 30px;
     font-size: 22px;
     color: #124265;
 }
+
+.alert-info{
+    margin-top:15px;
+}
+
+.admin-form{
+    padding: 0 25%;
+}
+
+.admin-form .admin-form-container {
+    padding: 50px 30px;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 0 29px 0 rgba(18, 66, 101, 0.08);
+    transition: all 0.3s ease-in-out;
+    border-radius: 8px;
+    z-index: 1;
+}

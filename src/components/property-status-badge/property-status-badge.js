@@ -17,7 +17,12 @@ const PropertyStatusBadge = ({ availability }) => {
             ;
 
     return <div className="property-status">
-        <span style={style}>{availability}</span>
+        {
+            availability != undefined ?
+            <span style={style}>{availability}</span>
+            :
+            <span style={style}> UNKNOWN </span>
+        }
     </div>;
 }
 

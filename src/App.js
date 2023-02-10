@@ -10,8 +10,12 @@ import AppRoutes from './containers/app-routes/app-routes';
 import React from 'react';
 import Footer from "./components/footer/footer";
 import Header from "./components/header/header";
+import axios from "axios";
 
 function App() {
+  
+  axios .defaults.baseURL='http://localhost:8081/api/v1/';
+
   return (
     <BrowserRouter>
       <React.Fragment>

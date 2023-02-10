@@ -1,7 +1,7 @@
 const OfferAcceptanceStatus = {
-    Pending: "Pending",
-    Accepted: "Accepted",
-    Rejected: "Rejected"
+    Pending: "PENDING",
+    Accepted: "ACCEPTED",
+    Rejected: "REJECTED"
 }
 
 export default OfferAcceptanceStatus;

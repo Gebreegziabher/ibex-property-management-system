@@ -1,151 +1,88 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import PropertyAvailability from "../../../../globals/availability-enum";
 import OfferAcceptanceStatus from "../../../../globals/offer-acceptance-status";
 import PropertyStatusBadge from "../../../property-status-badge/property-status-badge";
 
 const PropertyOffers = () => {
 
-    const [propertyOffers, setPropertyOffers] = useState({});
+    const [property, setProperty] = useState({});
+    const [offers, setOffers] = useState([]);
 
-    const fetchPropertyOffers = () => {
-        setPropertyOffers(
-            {
-                id: 1,
-                houseNumber: "RM 435",
-                availability: PropertyAvailability.Available,
-                price: 550000,
-                squareFeet: 10000,
-                numberOfBedRooms: 3,
-                numberOfBathRooms: 2,
-                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, odio!",
-                location: {
-                    street: "1000 N 4th St",
-                    city: "Fairfield",
-                    state: "IA",
-                    zipCode: "52557",
-                },
-                offers: [
-                    {
-                        id: 1,
-                        propertyId: 1,
-                        buyer: {
-                            firstName: "Jackson",
-                            lastName: "Oma",
-                            email: "JackO@gmail.com",
-                            phoneNumber: "+0828734222",
-                            address: {
-                                street: "1000 N 4th St",
-                                city: "Fairfield",
-                                state: "IA",
-                                zipCode: "52557",
-                            }
-                        },
-                        buyerProposedPrice: 500000,
-                        acceptance: OfferAcceptanceStatus.Pending,
-                    },
-                    {
-                        id: 2,
-                        propertyId: 1,
-                        buyer: {
-                            firstName: "Hilary",
-                            lastName: "Jack",
-                            email: "JackO@gmail.com",
-                            phoneNumber: "+0828734222",
-                            address: {
-                                street: "1000 N 4th St",
-                                city: "Fairfield",
-                                state: "IA",
-                                zipCode: "52557",
-                            }
-                        },
-                        buyerProposedPrice: 510000,
-                        acceptance: OfferAcceptanceStatus.Pending,
-                    },
-                    {
-                        id: 3,
-                        propertyId: 1,
-                        buyer: {
-                            firstName: "Obama",
-                            lastName: "Nelson",
-                            email: "JackO@gmail.com",
-                            phoneNumber: "+0828799222",
-                            address: {
-                                street: "1000 N 4th St",
-                                city: "Fairfield",
-                                state: "IA",
-                                zipCode: "52557",
-                            }
-                        },
-                        buyerProposedPrice: 510000,
-                        acceptance: OfferAcceptanceStatus.Pending,
-                    },
-                ]
-            }
-        );
+    const param = useParams();
+
+    const fetchOffers = () => {
+        axios.get("properties/" + param.id + "/offers").then(response => {
+            setOffers(response.data);
+        });
+        axios.get("properties/" + param.id).then(response => {
+            setProperty(response.data);
+        });
     }
 
-    useEffect(() => fetchPropertyOffers(), []);
+    useEffect(() => fetchOffers(), []);
 
     const acceptOffer = (id) => {
-        var offers = propertyOffers.offers;
         const updatedOffers = offers.map(i => i.id === id ? { ...i, acceptance: OfferAcceptanceStatus.Accepted } : i);
-        const updatePropertyOffers = {
-            ...propertyOffers,
-            offers: updatedOffers,
-            availability: PropertyAvailability.Pending
-        };
-        setPropertyOffers(updatePropertyOffers);
+        setOffers([...updatedOffers]);
 
-        //TODO: save to database
+        const updatedOffer = updatedOffers.filter(f => f.id == id)[0];
+        axios.put("offers/" + id, {
+            propertyId: id,
+            buyerId: updatedOffer.buyer.id,
+            buyerProposedPrice: updatedOffer.buyerProposedPrice,
+            acceptance: updatedOffer.acceptance
+        }).then(response => {
+            //TODO: after save to database
+        }).catch(error => console.log(error));
+
+        const updatedProperty = { ...property, status: PropertyAvailability.Pending };
+        setProperty(updatedProperty);
+        console.log(updatedProperty);
+        axios.put("properties/" + param.id, updatedProperty).then(response => {
+            //TODO: after save to database
+        }).catch(error => console.log(error));
     };
     const rejectOffer = (id) => {
-        var offers = propertyOffers.offers;
         const updatedOffers = offers.map(i => i.id === id ? { ...i, acceptance: OfferAcceptanceStatus.Rejected } : i);
-        const updatePropertyOffers = {
-            ...propertyOffers,
-            offers: updatedOffers
-        };
-        setPropertyOffers(updatePropertyOffers);
+        setOffers([...updatedOffers]);
 
-        //TODO: save to database
+        axios.put("offers/" + id, updatedOffers.filter(f => f.id == id)[0]).then(response => {
+            //TODO: after save to database
+        }).catch(error => console.log(error));
     };
 
     const changeToContingent = (id) => {
-        const updatePropertyOffers = {
-            ...propertyOffers,
-            availability: PropertyAvailability.Contingent
-        };
-        setPropertyOffers(updatePropertyOffers);
+        setProperty({ ...property, status: PropertyAvailability.Contingent });
 
-        //TODO: save to database
+        axios.put("properties/" + param.id, property).then(response => {
+            //TODO: after save to database
+        }).catch(error => console.log(error));
     };
 
     const changeToSold = (id) => {
-        const updatePropertyOffers = {
-            ...propertyOffers,
-            availability: PropertyAvailability.Sold
-        };
-        setPropertyOffers(updatePropertyOffers);
+        setProperty({ ...property, status: PropertyAvailability.Sold });
 
-        //TODO: save to database
+        axios.put("properties/" + param.id, property).then(response => {
+            //TODO: after save to database
+        }).catch(error => console.log(error));
     };
 
     let tableContent = null;
 
-    if (propertyOffers.offers != undefined)
-        tableContent = propertyOffers.offers.map(m => {
+    if (offers.length != 0)
+        tableContent = offers.map(m => {
             return (
                 <tr key={m.id}>
                     <td>{m.buyer.firstName} {m.buyer.lastName}</td>
                     <td>{m.buyer.email}</td>
                     <td>{m.buyer.phoneNumber}</td>
-                    <td>{m.buyer.address.street}, {m.buyer.address.city}, {m.buyer.address.state}, {m.buyer.address.zipCode}</td>
                     <td>${m.buyerProposedPrice.toLocaleString()}</td>
                     <td>
                         <div className="btn-group" role="group" aria-label="Basic example">
                             {
-                                propertyOffers.availability == PropertyAvailability.Available ?
+                                property.status == PropertyAvailability.Available ?
                                     <>
                                         {
                                             m.acceptance == OfferAcceptanceStatus.Pending ?
@@ -165,7 +102,7 @@ const PropertyOffers = () => {
                                         }
                                     </>
                                     :
-                                    propertyOffers.availability == PropertyAvailability.Pending ?
+                                    property.status == PropertyAvailability.Pending ?
                                         <>
                                             {
                                                 m.acceptance == OfferAcceptanceStatus.Accepted ?
@@ -189,7 +126,7 @@ const PropertyOffers = () => {
                                             }
                                         </>
                                         :
-                                        propertyOffers.availability == PropertyAvailability.Contingent ?
+                                        property.status == PropertyAvailability.Contingent ?
                                             <>
                                                 {
                                                     m.acceptance == OfferAcceptanceStatus.Accepted ?
@@ -216,7 +153,7 @@ const PropertyOffers = () => {
                                                 {
                                                     m.acceptance == OfferAcceptanceStatus.Accepted ?
                                                         <>
-                                                            <button type="button" className="btn btn-secondary btn-sm" disabled><i className="bi bi-check-circle"></i> {propertyOffers.availability}</button>
+                                                            <button type="button" className="btn btn-secondary btn-sm" disabled><i className="bi bi-check-circle"></i> {offers.availability}</button>
                                                         </>
                                                         :
                                                         <>
@@ -243,11 +180,12 @@ const PropertyOffers = () => {
             {
                 tableContent ?
                     <div className="alert alert-success" role="alert">
-                        <h4 className="alert-heading">Offers for property <strong>{propertyOffers.houseNumber}</strong></h4>
+                        <h4 className="alert-heading">Offers for property <strong>{property.propertyNumber}</strong></h4>
                         <hr />
                         <div>
-                            Location: <strong>{propertyOffers.location.street}, {propertyOffers.location.city}, {propertyOffers.location.state}, {propertyOffers.location.zipCode}</strong>
-                            <PropertyStatusBadge availability={propertyOffers.availability} />
+                            Location: <strong>{property.address.street}, {property.address.city}, {property.address.state}, {property.address.zipCode}</strong><br />
+                            Price: <strong>${property.price.toLocaleString()}</strong>
+                            <PropertyStatusBadge availability={property.status} />
                         </div>
                     </div>
                     :
@@ -263,7 +201,7 @@ const PropertyOffers = () => {
                             <th scope="col">Buyer name</th>
                             <th scope="col">Buyer email</th>
                             <th scope="col">Buyer phone number</th>
-                            <th scope="col">Buyer address</th>
+                            {/* <th scope="col">Buyer address</th> */}
                             <th scope="col">Requested price</th>
                             <th scope="col"></th>
                         </tr>
