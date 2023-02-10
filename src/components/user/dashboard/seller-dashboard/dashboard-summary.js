@@ -1,18 +1,25 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import PropertyAvailability from "../../../../globals/availability-enum";
+import Roles from "../../../../globals/roles";
 import PropertyStatusBadge from "../../../property-status-badge/property-status-badge";
 
 const SellerDashboardSummary = () => {
 
-    const [properties, setProperties] = useState([]);
-
+    const auth = useSelector(state => state.auth);
     const navigate = useNavigate();
+
+    if(auth.userDetails.role != Roles.Owner)
+        navigate("/");
+
+    const [properties, setProperties] = useState([]);    
 
     const fetchProperties = () => {
         axios.get("properties").then(response => {
-            setProperties(response.data);
+            const sellerProperties = response.data.filter(f => f.seller.id == auth.userDetails.id);
+            setProperties(sellerProperties);
         }).catch();
     }
 
@@ -48,22 +55,25 @@ const SellerDashboardSummary = () => {
                     <td>{m.description}</td>
                     <td><PropertyStatusBadge availability={m.status} /></td>
                     <td>
-                        <div className="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" className="btn btn-success" title="Show offers" onClick={() => navigateToOffers(m.id)}>
-                                <i className="bi bi-list-task"></i>
-                            </button>&nbsp;
-                            {
-                                m.status == PropertyAvailability.Available &&
-                                <>
-                                    <button type="button" className="btn btn-secondary" title="Update record" onClick={() => updateProperty(m.id)}>
-                                        <i className="bi bi-pencil-fill"></i>
-                                    </button>&nbsp;
-                                    <button type="button" className="btn btn-danger" title="Delete record" onClick={() => deleteProperty(m.id)}>
-                                        <i className="bi bi-trash3"></i>
-                                    </button>
-                                </>
-                            }
-                        </div>
+                        {
+                            auth.userDetails.id == m.seller.id &&
+                            <div className="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" className="btn btn-success" title="Show offers" onClick={() => navigateToOffers(m.id)}>
+                                    <i className="bi bi-list-task"></i>
+                                </button>&nbsp;
+                                {
+                                    m.status == PropertyAvailability.Available && 
+                                    <>
+                                        <button type="button" className="btn btn-secondary" title="Update record" onClick={() => updateProperty(m.id)}>
+                                            <i className="bi bi-pencil-fill"></i>
+                                        </button>&nbsp;
+                                        <button type="button" className="btn btn-danger" title="Delete record" onClick={() => deleteProperty(m.id)}>
+                                            <i className="bi bi-trash3"></i>
+                                        </button>
+                                    </>
+                                }
+                            </div>
+                        }
                     </td>
                 </tr>
             );

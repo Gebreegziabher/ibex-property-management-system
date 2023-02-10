@@ -14,7 +14,7 @@ const MainPage = () => {
                     </div>
                 </div>
                 <div className="text-center">
-                    <Link to="/filter" className="anchor btn-get-started">Get Started</Link>
+                    <Link to="/filter" className="anchor btn-get-started">Fetch by Filtering</Link>
                 </div>
                 <NewlyAddedProperties />
             </div>

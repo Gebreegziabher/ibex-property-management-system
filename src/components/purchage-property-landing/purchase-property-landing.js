@@ -1,12 +1,13 @@
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "./purchase-property-landing.css";
 const PurchasePropertyLanding = ({propertyDetails}) => {
+
+    const auth = useSelector(state => state.auth);
     
-    //TODO: to take logged in user details
-    //assume this is logged in user
     let customerDetails = {
-        firstName: "John",
-        lastName: "Beans",
+        firstName: auth.userDetails.firstName,
+        lastName: auth.userDetails.lastName,
     };
 
     return (
@@ -15,7 +16,7 @@ const PurchasePropertyLanding = ({propertyDetails}) => {
                 <div className="text-center">
                     <h3>Hi, {customerDetails.firstName} {customerDetails.lastName}</h3>
                     <p> We have informed the seller about your interest to purchase this house. Please stay tunned until they see your offer and contact you.</p>
-                    <Link className="cta-btn anchor" to="/main">Home</Link>
+                    <Link className="cta-btn anchor" to="/main">Take me Home</Link>
                 </div>
             </div>
         </div>

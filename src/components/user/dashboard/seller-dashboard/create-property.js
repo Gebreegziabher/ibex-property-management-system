@@ -1,13 +1,18 @@
 import axios from "axios";
 import { useRef } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import PropertyAvailability from "../../../../globals/availability-enum";
+import Roles from "../../../../globals/roles";
 
 const CreateProperty = () => {
-    const createPropertyForm = useRef();
-
+    const auth = useSelector(state => state.auth);
     const navigate = useNavigate();
 
+    if(auth.userDetails.role != Roles.Owner)
+        navigate("/");
+
+    const createPropertyForm = useRef();
     const createProperty = (event) => {
         event.preventDefault();
 
@@ -25,7 +30,7 @@ const CreateProperty = () => {
                 state: createPropertyForm.current['state'].value,
                 zipCode: createPropertyForm.current['zip-code'].value
             },
-            sellerId: 1
+            sellerId: auth.userDetails.id
         };
 
         axios.post("properties", property).then(response => {

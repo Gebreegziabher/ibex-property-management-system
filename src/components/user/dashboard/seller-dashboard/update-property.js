@@ -1,12 +1,17 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import PropertyAvailability from "../../../../globals/availability-enum";
+import Roles from "../../../../globals/roles";
 
 const UpdateProperty = () => {
-    const createPropertyForm = useRef();
-
+    const auth = useSelector(state => state.auth);
     const navigate = useNavigate();
+
+    if(auth.userDetails.role != Roles.Owner)
+        navigate("/");
+
+    const createPropertyForm = useRef();
 
     const param = useParams();
 
@@ -38,7 +43,7 @@ const UpdateProperty = () => {
                 state: createPropertyForm.current['state'].value,
                 zipCode: createPropertyForm.current['zip-code'].value
             },
-            sellerId: 2
+            sellerId: auth.userDetails.id
         };
 
         axios.put("properties/" + param.id, updated).then(response => {

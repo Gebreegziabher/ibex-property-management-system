@@ -41,9 +41,9 @@ const FilterBox = ({byLocation, byPrice, bySqft, byBeds, byBaths}) => {
                 &nbsp;
                 <input ref={sqftRef} type="text" className="form-control" placeholder="Square feet less than" aria-describedby="btnGroupAddon" onChange={filterBySqft}/>
                 &nbsp;
-                <input ref={bedsRef} type="text" className="form-control" placeholder="# beds equal to" aria-describedby="btnGroupAddon" onChange={filterByBedrooms}/>
+                <input ref={bedsRef} type="text" className="form-control" placeholder="# beds" aria-describedby="btnGroupAddon" onChange={filterByBedrooms}/>
                 &nbsp;
-                <input ref={bathsRef} type="text" className="form-control" placeholder="# baths equal to" aria-describedby="btnGroupAddon" onChange={filterByBathrooms}/>
+                <input ref={bathsRef} type="text" className="form-control" placeholder="# baths" aria-describedby="btnGroupAddon" onChange={filterByBathrooms}/>
             </div>
             {/* <div className="btn-group mr-2" role="group" aria-label="First group">
                 &nbsp;

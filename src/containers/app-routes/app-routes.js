@@ -20,6 +20,7 @@ import CreateRole from "../../components/user/dashboard/admin-dashboard/create-r
 import EditRole from "../../components/user/dashboard/admin-dashboard/edit-role";
 import CreateUser from "../../components/user/dashboard/admin-dashboard/create-user";
 import ChangePassword from "../../components/user/dashboard/admin-dashboard/change-password";
+import PropertyProposedPrice from "../../components/property-proposed-price/property-proppsed-price";
 
 const AppRoutes = () => {
     return (
@@ -34,7 +35,8 @@ const AppRoutes = () => {
                 <Route path="/property-details/:id" element={<PropertyDetailsCard />} />
                 <Route path="/property/:id/heart" element={<PropertyHeart />} />
                 <Route path="/property/:id/thumbs-down" element={<PropertyThumbsDown />} />
-                <Route path="/purchase/:id" element={<PurchasePropertyLanding />} />
+                <Route path="/property/:id/purchase-landing" element={<PurchasePropertyLanding />} />
+                <Route path="/property/:id/proposed-price" element={<PropertyProposedPrice />} />
                 
                 {/* Admin Dashboard */}
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />

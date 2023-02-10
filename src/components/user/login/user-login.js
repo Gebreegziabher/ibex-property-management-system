@@ -16,6 +16,7 @@ const UserLogin = () => {
 
   const doLogin = createAsyncThunk('login',
     async (userCredentials) => {
+
       //TODO: implement with DB
       /** 
        * 
@@ -23,12 +24,14 @@ const UserLogin = () => {
        * return res.data;
        * 
        * */
+
       return {
         isAuthenticated: true,
         userDetails: {
-          firstName: "Gebreegziabher",
-          lastName: "Gebru",
-          email: "3g.mit02@gmail.com",
+          id: 1,
+          firstName: "Luwam",
+          lastName: "Abraham",
+          email: "Luwam@gmail.com",
           role: Roles.Owner,
         }
       };
@@ -39,16 +42,19 @@ const UserLogin = () => {
     if (loginForm.current['email'].value && loginForm.current['password'].value) {
 
       const userCredentials = { email: loginForm.current['email'].value, password: loginForm.current['password'].value };
-      const result = await dispatch(doLogin(userCredentials));
-      dispatch(authActions.loginSuccessful(result.payload));
-      //TODO: add access token to cookie
-      /**
-       * 
-       * Cookies.set('user', result.payload.accessToken);
-       * 
-       * */
 
-      navigate("/");
+      const result = await dispatch(doLogin(userCredentials));
+
+      if (userCredentials.email === result.payload.userDetails.email && userCredentials.password === "123") {
+        dispatch(authActions.loginSuccessful(result.payload));
+        //TODO: add access token to cookie
+        /**
+         * 
+         * Cookies.set('user', result.payload.accessToken);
+         * 
+         * */
+        navigate("/");
+      }
     }
   };
 

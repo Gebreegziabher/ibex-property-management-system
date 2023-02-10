@@ -1,12 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Roles from "../../../../globals/roles";
 
 const DeleteProperty = () => {
 
-    const param = useParams();
-
+    const auth = useSelector(state => state.auth);
     const navigate = useNavigate();
+
+    if(auth.userDetails.role != Roles.Owner)
+        navigate("/");
+
+    const param = useParams();
 
     const [property, setProperty] = useState({});
 

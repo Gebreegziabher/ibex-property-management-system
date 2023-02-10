@@ -1,11 +1,19 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import PropertyAvailability from "../../../../globals/availability-enum";
 import OfferAcceptanceStatus from "../../../../globals/offer-acceptance-status";
+import Roles from "../../../../globals/roles";
 import PropertyStatusBadge from "../../../property-status-badge/property-status-badge";
 
 const PropertyOffers = () => {
+
+    const auth = useSelector(state => state.auth);
+    const navigate = useNavigate();
+
+    if(auth.userDetails.role != Roles.Owner)
+        navigate("/");
 
     const [property, setProperty] = useState({});
     const [offers, setOffers] = useState([]);
@@ -29,6 +37,7 @@ const PropertyOffers = () => {
 
         const updatedOffer = updatedOffers.filter(f => f.id == id)[0];
         axios.put("offers/" + id, {
+            id:id,
             propertyId: id,
             buyerId: updatedOffer.buyer.id,
             buyerProposedPrice: updatedOffer.buyerProposedPrice,
@@ -39,7 +48,6 @@ const PropertyOffers = () => {
 
         const updatedProperty = { ...property, status: PropertyAvailability.Pending };
         setProperty(updatedProperty);
-        console.log(updatedProperty);
         axios.put("properties/" + param.id, updatedProperty).then(response => {
             //TODO: after save to database
         }).catch(error => console.log(error));
@@ -54,17 +62,17 @@ const PropertyOffers = () => {
     };
 
     const changeToContingent = (id) => {
-        setProperty({ ...property, status: PropertyAvailability.Contingent });
-
-        axios.put("properties/" + param.id, property).then(response => {
+        const updatedProperty = { ...property, status: PropertyAvailability.Contingent };
+        setProperty(updatedProperty);
+        axios.put("properties/" + param.id, updatedProperty).then(response => {
             //TODO: after save to database
-        }).catch(error => console.log(error));
+        }).catch(error => console.log(error));;
     };
 
     const changeToSold = (id) => {
-        setProperty({ ...property, status: PropertyAvailability.Sold });
-
-        axios.put("properties/" + param.id, property).then(response => {
+        const updatedProperty = { ...property, status: PropertyAvailability.Sold };
+        setProperty(updatedProperty);
+        axios.put("properties/" + param.id, updatedProperty).then(response => {
             //TODO: after save to database
         }).catch(error => console.log(error));
     };
