@@ -1,26 +1,36 @@
+import axios from "axios";
 import { useRef } from "react";
-import { Link } from "react-router-dom";
-import { SystemName } from "../../../globals/common-names";
+import { useNavigate } from "react-router";
+import Roles from "../../../globals/roles";
 import "./user-registration.css";
 
 const UserRegistration = () => {
 
     const createAccountForm = useRef();
+
+    const navigate = useNavigate();
+
     const createAccountFormSubmitted = (e) => {
         e.preventDefault();
-        const firstName = createAccountForm.current['first-name'].value;
-        //const lastName = createAccountForm.current['last-name'].value;
-        //const phoneNumber = createAccountForm.current['phone-number'].value;
-        //const email = createAccountForm.current['email'].value;
-        //const seller = createAccountForm.current['user-role'].value;
 
-        //const street = createAccountForm.current['street'].value;
-        //const city = createAccountForm.current['city'].value;
-        //const state = createAccountForm.current['state'].value;
-        //const zopCode = createAccountForm.current['zipCode'].value;
-
-        console.log(createAccountForm);
-
+        const user = {
+            email: createAccountForm.current['email'].value,
+            firstName: createAccountForm.current['first-name'].value,
+            lastName: createAccountForm.current['last-name'].value,
+            phoneNumber: createAccountForm.current['phone-number'].value,
+            role: {
+                role: createAccountForm.current['user-role'].checked == true ? Roles.Owner : Roles.Customer,
+            },
+            address: {
+                street: createAccountForm.current['street'].value,
+                city: createAccountForm.current['city'].value,
+                state: createAccountForm.current['state'].value,
+                zopCode: createAccountForm.current['zip-code'].value
+            }
+        };
+        axios.post("users", user).then(response => {
+            navigate("/");
+        }).catch(error => console.log(error.message));
     };
 
     return (
@@ -67,8 +77,8 @@ const UserRegistration = () => {
                                     </div>
 
                                     <div className="form-check">
-                                        <input className="form-check-input check-box" type="checkbox" id="gridCheck1" name="user-role" />
-                                        <label className="form-check-label label" htmlFor="gridCheck1">
+                                        <input className="form-check-input check-box" type="checkbox" id="user-role" name="user-role" />
+                                        <label className="form-check-label label" htmlFor="user-role">
                                             Register as a seller
                                         </label>
                                     </div>
@@ -108,9 +118,6 @@ const UserRegistration = () => {
 
                             <div className="row gy-2 gx-md-3">
                                 <div className="my-3 col-3">
-                                    <div className="loading">Loading</div>
-                                    <div className="error-message"></div>
-                                    <div className="sent-message">Your message has been sent. Thank you!</div>
                                 </div>
                                 <div className="text-left col-10"><button type="submit">Submit</button></div>
                             </div>

@@ -1,10 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
+import Roles from "../../../../globals/roles";
 import "./admin-dashboard.css";
 const AdminDashboard = () => {
 
+    const auth = useSelector(state => state.auth);
     const navigate = useNavigate();
+
+    if(auth.userDetails.role != Roles.Admin)
+        navigate("/");
 
     const [roles, setRoles] = useState([]);
     const [users, setUsers] = useState([]);
@@ -100,7 +106,7 @@ const AdminDashboard = () => {
                     <td>{m.firstName} {m.lastName}</td>
                     <td>{m.email}</td>
                     <td>{m.phoneNumber}</td>
-                    <td>{m.role.role}</td>
+                    {/* <td>{m.role.role}</td> */}
                     <td>{m.active == false ?
                         <button type="button" className="btn btn-danger btn-sm" disabled><i className="bi bi-x-circle"></i> Inactive </button>
                         :
@@ -108,12 +114,12 @@ const AdminDashboard = () => {
                     }</td>
                     <td>
                         <div className="btn-group" role="group" aria-label="Basic example">
-                            {m.active == true &&
+                            {m.active == true && m.id != auth.userDetails.id &&
                                 <button type="button" className="btn btn-danger" title="Lock user" onClick={() => changeUserLock(m.id)}>
                                     <i className="bi bi-lock-fill"></i>
                                 </button>
                             }
-                            {m.active == false &&
+                            {m.active == false && m.id != auth.userDetails.id &&
                                 <button type="button" className="btn btn-success" title="Unlock user" onClick={() => changeUserLock(m.id)}>
                                     <i className="bi bi-unlock-fill"></i>
                                 </button>
@@ -166,7 +172,7 @@ const AdminDashboard = () => {
                                 <th scope="col">Full name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone number</th>
-                                <th scope="col">Role</th>
+                                {/* <th scope="col">Role</th> */}
                                 <th scope="col">Active?</th>
                                 <th scope="col"></th>
                             </tr>

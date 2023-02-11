@@ -10,7 +10,7 @@ const NewlyAddedProperties = () => {
 
     const fetchProperties = () => {
         axios.get("properties").then(response => {
-            const unsoldProperties = response.data.filter(f => f.status != PropertyAvailability.Sold);
+            const unsoldProperties = response.data.filter(f => f.status != PropertyAvailability.Sold).slice(0, 10);
             setProperties(unsoldProperties);
         });
     }
@@ -21,12 +21,19 @@ const NewlyAddedProperties = () => {
 
     return (
         <div id="property-card" className="property-card">
-            <p>Newly added</p>
-            <div className="container">
-                <div className="row">
-                    {cards}
-                </div>
-            </div>
+            {
+                properties.length !== 0 ?
+                <>
+                    <p>Newly added</p>
+                    <div className="container">
+                        <div className="row">
+                            {cards}
+                        </div>
+                    </div>
+                </>
+                :
+                <p>No properties added yet.</p>
+            }
         </div>
     );
 }

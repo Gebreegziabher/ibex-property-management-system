@@ -29,7 +29,7 @@ const PropertyDetailsCard = () => {
 
     const requestPurchaseClicked = () => {
         if (auth.isAuthenticated == true) {
-            navigate("/property/" + param.id+"/proposed-price");
+            navigate("/property/" + param.id + "/proposed-price");
         }
         else {
             navigate("/login");
@@ -38,7 +38,7 @@ const PropertyDetailsCard = () => {
 
     let display = null;
 
-    if (property != null){
+    if (property != null) {
         display = <div id="property-details" className="property-details">
             <div className="container">
                 <h1><Link to="/main" className="anchor"><i className="bx bx-chevron-left"></i>Back</Link></h1>
@@ -62,21 +62,24 @@ const PropertyDetailsCard = () => {
                             {property.description}
                         </p>
                         {
-                            auth.userDetails.id != property.seller.id && 
+                            auth.userDetails.id != property.seller.id &&
                             property.status != PropertyAvailability.Contingent &&
                             <button type="submit" onClick={requestPurchaseClicked}>Request Purchase</button>
                         }
                     </div>
-                    {/* <div className="col-lg-2">
-                 <h2 className="seller-details"><strong>Seller Details</strong></h2>
-                 <AddressCard
-                     Address={property.sellerDetails.address.street}
-                     City={property.sellerDetails.address.city}
-                     State={property.sellerDetails.address.state}
-                     ZipCode={property.sellerDetails.address.zipCode}
-                     Email={property.sellerDetails.email}
-                     PhoneNumber={property.sellerDetails.phoneNumber} />
-             </div> */}
+                    {
+                        property.seller != undefined && property.seller.address != null &&
+                        <div className="col-lg-2">
+                            <h2 className="seller-details"><strong>Seller Details</strong></h2>
+                            <AddressCard
+                                Address={property.seller.address.street}
+                                City={property.seller.address.city}
+                                State={property.seller.address.state}
+                                ZipCode={property.seller.address.zipCode}
+                                Email={property.seller.email}
+                                PhoneNumber={property.seller.phoneNumber} />
+                        </div>
+                    }
                 </div>
             </div>
         </div>;

@@ -1,11 +1,17 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import Roles from "../../../../globals/roles";
 
 const CreateUser = () => {
 
+    const auth = useSelector(state => state.auth);
     const navigate = useNavigate();
+
+    if(auth.userDetails.role != Roles.Admin)
+        navigate("/");
 
     const userFormRef = useRef();
 

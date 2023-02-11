@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Address, City, Email, PhoneNumber, State, SystemName, ZipCode } from "../../../globals/common-names";
@@ -14,8 +14,59 @@ const UserLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const doLogin = createAsyncThunk('login',
     async (userCredentials) => {
+
+      if (userCredentials.email.toLowerCase().includes("luwam")) {
+        return {
+          isAuthenticated: true,
+          userDetails: {
+            id: 2,
+            firstName: "Luwam",
+            lastName: "Abraham",
+            email: "Luwam@gmail.com",
+            role: Roles.Owner,
+          }
+        }
+      }
+      else if (userCredentials.email.toLowerCase().includes("feven")) {
+        return {
+          isAuthenticated: true,
+          userDetails: {
+            id: 3,
+            firstName: "Feven",
+            lastName: "Kiflay",
+            email: "Feven@gmail.com",
+            role: Roles.Owner,
+          }
+        }
+      }
+      else if (userCredentials.email.toLowerCase().includes("3g")) {
+        return {
+          isAuthenticated: true,
+          userDetails: {
+            id: 1,
+            firstName: "Gebreegziabher",
+            lastName: "Gebru",
+            email: "3g.mit02@gmail.com",
+            role: Roles.Admin,
+          }
+        }
+      }
+      else if (userCredentials.email.toLowerCase().includes("suz")) {
+        return {
+          isAuthenticated: true,
+          userDetails: {
+            id: 3,
+            firstName: "Suzana",
+            lastName: "",
+            email: "suzana@gmail.com",
+            role: Roles.Owner,
+          }
+        }
+      }
 
       //TODO: implement with DB
       /** 
@@ -24,17 +75,6 @@ const UserLogin = () => {
        * return res.data;
        * 
        * */
-
-      return {
-        isAuthenticated: true,
-        userDetails: {
-          id: 1,
-          firstName: "Luwam",
-          lastName: "Abraham",
-          email: "Luwam@gmail.com",
-          role: Roles.Owner,
-        }
-      };
     });
 
   const loginFormSubmitted = async (e) => {
@@ -45,7 +85,7 @@ const UserLogin = () => {
 
       const result = await dispatch(doLogin(userCredentials));
 
-      if (userCredentials.email === result.payload.userDetails.email && userCredentials.password === "123") {
+      if (userCredentials.email.toUpperCase() == result.payload.userDetails.email.toUpperCase() && userCredentials.password === "123") {
         dispatch(authActions.loginSuccessful(result.payload));
         //TODO: add access token to cookie
         /**
@@ -54,6 +94,9 @@ const UserLogin = () => {
          * 
          * */
         navigate("/");
+      }
+      else {
+        setErrorMessage("Wrong email or password.");
       }
     }
   };
@@ -71,6 +114,13 @@ const UserLogin = () => {
               <h2>Welcome to {SystemName}</h2>
               <p className="description">Don't have an account yet? Please signup and reach out to our admin to get started with {SystemName}.</p>
             </div>
+
+            {
+              errorMessage !== null &&
+              <div className="alert alert-danger alert-info">
+                {errorMessage}.
+              </div>
+            }
 
             <form role="form" className="login-form" ref={loginForm} onSubmit={loginFormSubmitted}>
 
