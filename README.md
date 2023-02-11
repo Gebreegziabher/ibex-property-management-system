@@ -7,7 +7,7 @@ Property management portal is a web-based java and ReactJs project where house o
 The front-end is developed using ReactJs and the back-end is developed using Spring boot. The overall functionality of the system is hosted in this 11 minutes video - https://loom.com/share/cf4790a4eab5458185214cefa12cce18
 
 ## Functionalities
-***
+
 IBex is a mini property management system that has the below functionalities but can be easily extended to cover other features
 * Owners/Customers can register to the system. 
 * Owners can add properties.
