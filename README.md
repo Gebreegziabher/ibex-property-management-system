@@ -1,6 +1,6 @@
 # Property Management System
 
-This project is developed for the purpose of a course project at Maharishi International University, proposed by this lovely professor- https://github.com/muhyidean/. We named the application - IBex. 
+This system is developed for the purpose of a course project at Maharishi International University, proposed by this lovely professor- https://github.com/muhyidean/. We named the application - IBex. 
 
 Property management portal is a web-based java and ReactJs project where house owners and customers can exchange information effectively and inexpensively. This system provides a user-friendly interface, satisfying the needs of the consumers.
 
