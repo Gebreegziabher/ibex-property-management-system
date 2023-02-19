@@ -161,7 +161,7 @@ const PropertyOffers = () => {
                                                 {
                                                     m.acceptance == OfferAcceptanceStatus.Accepted ?
                                                         <>
-                                                            <button type="button" className="btn btn-secondary btn-sm" disabled><i className="bi bi-check-circle"></i> {offers.availability}</button>
+                                                            <button type="button" className="btn btn-secondary btn-sm" disabled><i className="bi bi-check-circle"></i> SOLD </button>
                                                         </>
                                                         :
                                                         <>
