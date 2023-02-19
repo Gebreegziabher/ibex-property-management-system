@@ -8,7 +8,7 @@ const UpdateProperty = () => {
     const auth = useSelector(state => state.auth);
     const navigate = useNavigate();
 
-    if(auth.userDetails.role != Roles.Owner)
+    if(auth.userDetails.role.role != Roles.Owner)
         navigate("/");
 
     const createPropertyForm = useRef();

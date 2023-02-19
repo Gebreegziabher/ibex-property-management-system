@@ -20,11 +20,11 @@ const authSlice = createSlice(
             loginSuccessful(state, action) {
                 state.isAuthenticated = true;
                 state.userDetails = {
-                    id:action.payload.userDetails.id,
-                    firstName: action.payload.userDetails.firstName,
-                    lastName: action.payload.userDetails.lastName,
-                    email: action.payload.userDetails.email,
-                    role: action.payload.userDetails.role
+                    id:action.payload.userResponseDto.id,
+                    firstName: action.payload.userResponseDto.firstName,
+                    lastName: action.payload.userResponseDto.lastName,
+                    email: action.payload.userResponseDto.email,
+                    role: action.payload.userResponseDto.role
                 };
             },
             logout(state) {

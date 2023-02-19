@@ -18,8 +18,8 @@ const Header = () => {
     };
 
     const navigateToDashboard = () => {
-        if (auth.userDetails != undefined && auth.userDetails.role != undefined) {
-            switch (auth.userDetails.role) {
+        if (auth.userDetails != undefined && auth.userDetails.role != undefined) {         
+            switch (auth.userDetails.role.role) {
                 case Roles.Admin:
                     navigate("/admin-dashboard");
                     break;

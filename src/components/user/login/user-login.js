@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import Cookies from "js-cookie";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Address, City, Email, PhoneNumber, State, SystemName, ZipCode } from "../../../globals/common-names";
-import Roles from "../../../globals/roles";
 import { authActions } from "../../../store/store";
 import AddressCard from "../../address-card/address-card";
 import "./user-login.css";
@@ -19,62 +20,8 @@ const UserLogin = () => {
   const doLogin = createAsyncThunk('login',
     async (userCredentials) => {
 
-      if (userCredentials.email.toLowerCase().includes("luwam")) {
-        return {
-          isAuthenticated: true,
-          userDetails: {
-            id: 2,
-            firstName: "Luwam",
-            lastName: "Abraham",
-            email: "Luwam@gmail.com",
-            role: Roles.Owner,
-          }
-        }
-      }
-      else if (userCredentials.email.toLowerCase().includes("feven")) {
-        return {
-          isAuthenticated: true,
-          userDetails: {
-            id: 3,
-            firstName: "Feven",
-            lastName: "Kiflay",
-            email: "Feven@gmail.com",
-            role: Roles.Owner,
-          }
-        }
-      }
-      else if (userCredentials.email.toLowerCase().includes("3g")) {
-        return {
-          isAuthenticated: true,
-          userDetails: {
-            id: 1,
-            firstName: "Gebreegziabher",
-            lastName: "Gebru",
-            email: "3g.mit02@gmail.com",
-            role: Roles.Admin,
-          }
-        }
-      }
-      else if (userCredentials.email.toLowerCase().includes("suz")) {
-        return {
-          isAuthenticated: true,
-          userDetails: {
-            id: 3,
-            firstName: "Suzana",
-            lastName: "",
-            email: "suzana@gmail.com",
-            role: Roles.Owner,
-          }
-        }
-      }
-
-      //TODO: implement with DB
-      /** 
-       * 
-       * const res = await axios.post('http://localhost:8080/api/v1/authenticate', userCredentials);
-       * return res.data;
-       * 
-       * */
+      const res = await axios.post('authenticate', userCredentials);
+      return res.data;
     });
 
   const loginFormSubmitted = async (e) => {
@@ -85,14 +32,9 @@ const UserLogin = () => {
 
       const result = await dispatch(doLogin(userCredentials));
 
-      if (userCredentials.email.toUpperCase() == result.payload.userDetails.email.toUpperCase() && userCredentials.password === "123") {
+      if (result.payload !== undefined) {
         dispatch(authActions.loginSuccessful(result.payload));
-        //TODO: add access token to cookie
-        /**
-         * 
-         * Cookies.set('user', result.payload.accessToken);
-         * 
-         * */
+        Cookies.set('user', result.payload.accessToken);
         navigate("/");
       }
       else {

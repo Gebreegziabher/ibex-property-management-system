@@ -9,7 +9,7 @@ const AdminDashboard = () => {
     const auth = useSelector(state => state.auth);
     const navigate = useNavigate();
 
-    if(auth.userDetails.role != Roles.Admin)
+    if(auth.userDetails.role.role != Roles.Admin)
         navigate("/");
 
     const [roles, setRoles] = useState([]);

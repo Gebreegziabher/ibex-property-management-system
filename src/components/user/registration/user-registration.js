@@ -1,36 +1,50 @@
 import axios from "axios";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import Roles from "../../../globals/roles";
 import "./user-registration.css";
+import bcrypt from 'bcryptjs';
 
 const UserRegistration = () => {
+
+    const salt = bcrypt.genSaltSync(10);
 
     const createAccountForm = useRef();
 
     const navigate = useNavigate();
 
+    const [errorMessage, setErrorMessage] = useState(null);
+
     const createAccountFormSubmitted = (e) => {
         e.preventDefault();
 
-        const user = {
-            email: createAccountForm.current['email'].value,
-            firstName: createAccountForm.current['first-name'].value,
-            lastName: createAccountForm.current['last-name'].value,
-            phoneNumber: createAccountForm.current['phone-number'].value,
-            role: {
-                role: createAccountForm.current['user-role'].checked == true ? Roles.Owner : Roles.Customer,
-            },
-            address: {
-                street: createAccountForm.current['street'].value,
-                city: createAccountForm.current['city'].value,
-                state: createAccountForm.current['state'].value,
-                zopCode: createAccountForm.current['zip-code'].value
-            }
-        };
-        axios.post("users", user).then(response => {
-            navigate("/");
-        }).catch(error => console.log(error.message));
+        const password = createAccountForm.current['password'].value;
+        const cPassword = createAccountForm.current['confirm-password'].value;
+
+        if (password !== cPassword)
+            setErrorMessage("Password and confirm password are not equal.");
+        else {
+            const passwordHash = bcrypt.hashSync(password, salt);
+            const user = {
+                email: createAccountForm.current['email'].value,
+                firstName: createAccountForm.current['first-name'].value,
+                lastName: createAccountForm.current['last-name'].value,
+                phoneNumber: createAccountForm.current['phone-number'].value,
+                password: passwordHash,
+                role: {
+                    role: createAccountForm.current['user-role'].checked == true ? Roles.Owner : Roles.Customer,
+                },
+                address: {
+                    street: createAccountForm.current['street'].value,
+                    city: createAccountForm.current['city'].value,
+                    state: createAccountForm.current['state'].value,
+                    zipCode: createAccountForm.current['zip-code'].value
+                }
+            };
+            axios.post("users", user).then(response => {
+                navigate("/");
+            }).catch(error => console.log(error.message));
+        }
     };
 
     return (
@@ -75,13 +89,6 @@ const UserRegistration = () => {
                                             <input type="tel" className="form-control text-field" name="email" id="email" placeholder="Your email address" required />
                                         </div>
                                     </div>
-
-                                    <div className="form-check">
-                                        <input className="form-check-input check-box" type="checkbox" id="user-role" name="user-role" />
-                                        <label className="form-check-label label" htmlFor="user-role">
-                                            Register as a seller
-                                        </label>
-                                    </div>
                                 </div>
                                 <div className="col-md-12 col-lg-6">
                                     <div className="create-account-form-title">
@@ -116,8 +123,44 @@ const UserRegistration = () => {
                                 </div>
                             </div>
 
+                            <br /><br />
+
+                            <div className="row">
+                                <div className="col-md-12 col-lg-6">
+                                    <div className="row gy-2 gx-md-3">
+                                        <label className="form-group">Password</label>
+                                        <div className="col-md-10 form-group">
+                                            <input type="password" className="form-control text-field" name="password" id="password" placeholder="Password" required />
+                                        </div>
+                                    </div>
+                                    <div className="form-check">
+                                        <input className="form-check-input check-box" type="checkbox" id="user-role" name="user-role" />
+                                        <label className="form-check-label label" htmlFor="user-role">
+                                            Register as a seller
+                                        </label>
+                                    </div>
+                                </div>
+                                <div className="col-md-12 col-lg-6">
+                                    <div className="row gy-2 gx-md-3">
+                                        <label className="form-group">Confirm password</label>
+                                        <div className="col-md-10 form-group">
+                                            <input type="password" className="form-control text-field" name="confirm-password" id="confirm-password" placeholder="Confirm password" required />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className="row gy-2 gx-md-3">
-                                <div className="my-3 col-3">
+                                <div className="my-3 col-11">
+                                    {
+                                        errorMessage != null &&
+                                        <>
+                                            <br />
+                                            <div className="alert alert-danger alert-danger" role="alert">
+                                                {errorMessage}
+                                            </div>
+                                        </>
+                                    }
                                 </div>
                                 <div className="text-left col-10"><button type="submit">Submit</button></div>
                             </div>

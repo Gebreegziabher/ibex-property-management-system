@@ -1,4 +1,4 @@
-export const SystemName = "IBex";
+export const SystemName = "iBex";
 export const Address = "1000 N 4th Street";
 export const City = "Fairfield";
 export const State = "IA";
