@@ -1,4 +1,4 @@
-# Property Management System: IBex
+# Property Management System(Front-end): IBex
 
 This system is developed for the purpose of a course project at Maharishi International University, proposed by this lovely professor- https://github.com/muhyidean/. We named the application - IBex. 
 
